@@ -30,9 +30,32 @@ class Solution {
   }
 
   // Optimise approach
+  characterReplacementOptimised(s, k) {
+    const freq = new Map();
+    let maxFreq = 0;
+    let left = 0;
+    let maxL = 0;
+
+    for (let right = 0; right < s.length; right++) {
+      let currChar = s[right];
+      let count = (freq.get(currChar) ?? 0) + 1;
+      freq.set(currChar, count);
+
+      maxFreq = Math.max(maxFreq, count);
+
+      while (right - left + 1 - maxFreq > k) {
+        freq.set(s[left], freq.get(s[left]) - 1);
+        left++;
+      }
+
+      maxL = Math.max(maxL, right - left + 1);
+    }
+
+    return maxL;
+  }
 }
 
 const s = new Solution();
 
-console.log(s.characterReplacement("XYYX", 1));
-console.log(s.characterReplacement("AAABABB", 1));
+console.log(s.characterReplacementOptimised("XYYX", 1));
+console.log(s.characterReplacementOptimised("AAABABB", 1));
