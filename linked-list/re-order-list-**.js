@@ -106,7 +106,9 @@ class Solution {
   // re-ordering happening in place
   // very importanrt
   reorderListInPlace(head) {
+    // find the middle
     let secondHalf = this.findMiddle(head);
+    // reverse the list  from the middle
     let reversedSecondHalf = this.reverseList(secondHalf.next);
 
     secondHalf.next = null;
@@ -117,6 +119,7 @@ class Solution {
     let temp1 = undefined,
       temp2 = undefined;
 
+    // most important part, using two pointers, perform re-ordering
     while (second) {
       temp1 = first.next;
       temp2 = second.next;
