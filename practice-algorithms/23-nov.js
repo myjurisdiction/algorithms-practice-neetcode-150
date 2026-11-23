@@ -87,6 +87,10 @@ class MinHeap {
       idx = swap;
     }
   }
+
+  get size() {
+    return this.values.length;
+  }
 }
 
 class MaxHeap extends MinHeap {
@@ -94,7 +98,21 @@ class MaxHeap extends MinHeap {
     super();
   }
 
-  bubbleUp() {}
+  bubbleUp() {
+    let idx = this.values.length - 1;
+    const last = this.values[idx];
+
+    while (idx > 0) {
+      let parentIdx = Math.floor((idx - 1) / 2);
+      let parent = this.values[parentIdx];
+
+      if (parent > last) break;
+
+      this.values[parentIdx] = last;
+      this.values[idx] = parent;
+      idx = parentIdx;
+    }
+  }
 
   syncDown() {
     const n = this.values.length;
@@ -306,7 +324,65 @@ class Solution {
     return max === Infinity ? "" : s.substring(res[0], res[1] + 1);
   }
 
-  leastInterval(tasks, n) {}
+  leastInterval(tasks, n) {
+    /**
+     * Algorithm :
+     *
+     * using max heap and queue
+     *
+     * 1.  count characters freq
+     * 2. push the freq in max heap
+     *
+     * 3. while (max_heap.size or queue.length)
+     *      count++;
+     *
+     *      if (queue[0][1] === count) {
+     *          new_task = queue[0][0]
+     *          queue.unshift()
+     *          max_heap.push(new_task)
+     *      }
+     *
+     *      task = max_heap.extractMax()
+     *      remaining_task = task - 1
+     *      queue.push([remaining_task, count + n]);
+     *
+     *   return count
+     */
+
+    const freq = new Map();
+
+    for (const task of tasks) {
+      freq.set(task, (freq.get(task) ?? 0) + 1);
+    }
+
+    const maxHeap = new MaxHeap();
+    const queue = [];
+    let time = 0;
+
+    for (let taskCount of freq.values()) {
+      maxHeap.push(taskCount);
+    }
+
+    while (maxHeap.size > 0 || queue.length > 0) {
+      time++;
+
+      if (maxHeap.size > 0) {
+        const currTask = maxHeap.pop();
+        const remainingTask = currTask - 1;
+        if (remainingTask > 0) {
+          queue.push([remainingTask, time + n]);
+        }
+      }
+
+      if (queue.length && queue[0][1] === time) {
+        const newTask = queue[0][0];
+        queue.shift();
+        maxHeap.push(newTask);
+      }
+    }
+
+    return time;
+  }
 }
 
 const s = new Solution();
@@ -329,6 +405,8 @@ const s = new Solution();
 //   t = "XYZ";
 // console.log(s.minWindow(s1, t));
 
+// console.log(s.leastInterval(["X", "X", "Y", "Y"], 2));
+console.log(s.leastInterval(["A", "A", "A", "B", "C"], 3));
 /**
  * "z x y z x y z" | Set(z, x, y)
  *  l 
