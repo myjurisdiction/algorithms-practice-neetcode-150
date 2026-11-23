@@ -25,8 +25,8 @@ class Solution {
   }
 }
 
-const s = new Solution();
+// const s = new Solution();
 
-console.log(s.lengthOfLongestSubstring("abcabcbb"));
-console.log(s.lengthOfLongestSubstring("zxyzxyz"));
-console.log(s.lengthOfLongestSubstring("xxxx"));
+// console.log(s.lengthOfLongestSubstring("abcabcbb"));
+// console.log(s.lengthOfLongestSubstring("zxyzxyz"));
+// console.log(s.lengthOfLongestSubstring("xxxx"));
