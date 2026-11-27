@@ -4,7 +4,7 @@ class Solution {
    * @return {number}
    */
 
-  // wrong apporach
+  // This i did not underastand -> let's understand this whole tomorrow
   rob(nums) {
     let rob1 = 0,
       rob2 = 0;
